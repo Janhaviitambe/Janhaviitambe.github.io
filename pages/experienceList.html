@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pratham Gupta</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Fira Code', monospace;
+            background-color: #1f1f1f;
+            color: #39DA39;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .navbar {
+            width: 100%;
+            background-color: rgba(31,31,31,0.5); /* Semi-transparent background */
+            overflow: hidden;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar a {
+            float: left;
+            display: block;
+            color: #39DA39;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+
+        .navbar a:hover {
+            background-color: rgba(31,31,31,0.5);
+            color: #39DA39;
+        }
+
+        .navbar .icon {
+            display: none;
+        }
+
+        .main-content {
+            padding-top: 60px;
+            width: 80%;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .main-text {
+            text-align: center; /* Center align main text */
+        }
+
+        .main-image {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin: 20px;
+        }
+
+        .column {
+            width: 48%;
+            box-sizing: border-box;
+        }
+
+        .card {
+            background-color: #1f1f1f;
+            color: #fff; /* Set text color to white */
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 10px;
+        }
+
+        .card a {
+            color: #39DA39;
+            cursor: pointer;
+        }
+
+        .card a:hover {
+            color: #fff;
+        }
+
+        .typing-effect::after {
+            content: '_';
+            animation: blink-caret 1s step-end infinite;
+        }
+
+        @keyframes blink-caret {
+            from, to {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .more-content {
+            display: none;
+            margin-top: 10px;
+        }
+
+        @media screen and (max-width: 600px) {
+            .navbar a {
+                display: none;
+            }
+
+            .navbar a.icon {
+                float: right;
+                display: block;
+            }
+
+            .content {
+                flex-direction: column;
+            }
+
+            .column {
+                width: 100%;
+            }
+        }
+
+        @media screen and (max-width: 600px) {
+            .navbar.responsive {
+                position: relative;
+            }
+
+            .navbar.responsive .icon {
+                position: absolute;
+                right: 0;
+                top: 0;
+            }
+
+            .navbar.responsive a {
+                float: none;
+                display: block;
+                text-align: left;
+            }
+
+            .content {
+                flex-direction: column;
+            }
+
+            .column {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar" id="myNavbar">
+    <a href="../index.html">Home</a>
+    <a href="../files/Resume.pdf">Resume</a>
+    <a href="./pages/about.html">About</a>
+    <a href="./pages/contact.html">Contact</a>
+    <a href="javascript:void(0);" class="icon" onclick="toggleMenu()">
+        &#9776;
+    </a>
+</div>
+
+<div class="main-content">
+    <div class="main-text">
+        <h1><span id="typing-text" class="typing-effect"></span></h1>
+    </div>
+    <h2>$cat Experience</h2>
+    <div class="content" id="experience">
+        <!-- Content will be loaded here -->
+    </div>
+</div>
+
+<script>
+    function toggleMenu() {
+        var x = document.getElementById("myNavbar");
+        if (x.className === "navbar") {
+            x.className += " responsive";
+        } else {
+            x.className = "navbar";
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const text = "$> Pratham Gupta";
+        let index = 0;
+        const speed = 150; // Adjust typing speed here
+        const typingText = document.getElementById("typing-text");
+
+        function typeWriter() {
+            if (index < text.length) {
+                typingText.innerHTML += text.charAt(index);
+                index++;
+                setTimeout(typeWriter, speed);
+            }
+        }
+
+        typeWriter();
+
+        function loadContent(id, file) {
+            fetch(file)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById(id).innerHTML += data;
+                })
+                .catch(error => console.error('Error loading content:', error));
+        }
+
+        loadContent('experience', './experienceLong.html');
+
+    });
+
+    function toggleReadMore(event) {
+        const moreContent = event.target.closest('.card').querySelector('.more-content');
+        if (moreContent.style.display === "none" || moreContent.style.display === "") {
+            moreContent.style.display = "block";
+            event.target.innerText = "Show Less ▴";
+        } else {
+            moreContent.style.display = "none";
+            event.target.innerText = "Show More ▾";
+        }
+    }
+</script>
+
+</body>
+</html>
